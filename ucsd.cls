@@ -213,15 +213,19 @@
 % Option values are now declared first thing.  Defaults are set to
 % 11 point, onesided, final (ie not draft) mode (BBF 10/31/94)
 \newcommand\@ptsize{}
-\newcommand\@draftmark{}
-\newcommand\@chapterheadsmark{0}
 \DeclareOption{10pt}{\renewcommand\@ptsize{0}}
 \DeclareOption{11pt}{\renewcommand\@ptsize{1}}
 \DeclareOption{12pt}{\renewcommand\@ptsize{2}}
+
+\newcommand\@chapterheadsmark{0}
 \DeclareOption{oneside}{\@twosidefalse \@mparswitchfalse}
 \DeclareOption{twoside}{\@twosidetrue  \@mparswitchtrue}
+
+
+\newcommand\@draftmark{}
 \DeclareOption{draft}{\renewcommand\@draftmark{1}}
 \DeclareOption{final}{\renewcommand\@draftmark{0}}
+\DeclareOption{lulu}{\renewcommand\@draftmark{-1}}
 
 % Add new language options here
 \newcommand\@lang{en}
@@ -279,11 +283,32 @@
 
 \ProcessOptions
 
+
+% CHOOSING THE TYPE SIZE:
+%
+%  The type size option is handled by reading a different file for each
+%  size, as follows, to define font size-specific commands:
+%       10pt : UCT10, 11pt : UCT11, 12pt : UCT12
+%
 \input uct1\@ptsize.clo\relax
 
 % Set the paper size to letter
-\setlength{\paperheight}{11.0in}
-\setlength{\paperwidth}{8.5in}
+\ifnum \@draftmark = -1
+    \setlength{\paperheight}{9in}
+    \setlength{\paperwidth}{6in}
+\else
+    \setlength{\paperheight}{11.0in}
+    \setlength{\paperwidth}{8.5in}
+\fi
+
+
+% JRB - Change textheight per OGS.  This gets the page numbers in the
+% right place.
+\addtolength{\topmargin}{-.25in}
+\addtolength{\textheight}{.5in}
+\addtolength{\footskip}{.25in}
+%\RequirePackage[paperheight=\paperheight, paperwidth=\paperwidth]{geometry}
+
 
 %% CAPTION
 % This overrides some of the ugliness in ucsd.cls and
@@ -324,6 +349,7 @@
 
 % Input class file, based on language
 \input{languages/\@lang.tex}
+
 %    ****************************************
 %    *             FRONT MATTER             *
 %    ****************************************
@@ -404,12 +430,6 @@
 % Set the font that will be used in the front matter headings
 \def\fmfont{\fontsize\@xiipt{14.5}\selectfont}
 \def\fmsmallfont{\fontsize\@xiipt{14pt}\selectfont}
-
-% JRB - Change textheight per OGS.  This gets the page numbers in the
-% right place.
-\addtolength{\topmargin}{-.5in}
-\addtolength{\textheight}{.5in}
-\addtolength{\footskip}{.25in}
 
 \def\makefrontmatter{
 % TITLE PAGE.
