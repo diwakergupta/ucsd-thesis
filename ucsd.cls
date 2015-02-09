@@ -405,8 +405,8 @@
 % how to get the TeX \uppercase macro to work for me (EVM, 9/21/94)
 
 % The name of your UC Campus CAPITALIZED (e.g. Berkeley, Los Angeles)
-% \def\campus#1{\gdef\@campus{#1}}
 \def\@campus{San Diego}
+\def\campus#1{\gdef\@campus{#1}}
 
 \def\includefigureindex#1{\gdef\@includefigureindex{#1}}
 \def\includetableindex#1{\gdef\@includetableindex{#1}}
