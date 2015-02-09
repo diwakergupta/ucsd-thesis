@@ -280,11 +280,20 @@
 \ProcessOptions
 
 \input uct1\@ptsize.clo\relax
-\linespread{2}  % proper double-spacing.
 
 % Set the paper size to letter
 \setlength{\paperheight}{11.0in}
 \setlength{\paperwidth}{8.5in}
+
+%% CAPTION
+% This overrides some of the ugliness in ucsd.cls and
+% allows the text to be double-spaced while letting figures,
+% tables, and footnotes to be single-spaced--all OGS requirements.
+% NOTE: Must appear after graphics and ams math
+\let\@currsize\normalsize
+\RequirePackage{scrextend}  % to avoid potential conflicts with caption
+\RequirePackage{caption, setspace}
+\captionsetup{font={small,stretch=1.0},width=0.9\textwidth}
 
 % \smallssp is used to produce tabular environments in the small font.
 % This is required because single-spacing requires a change in font size.
@@ -295,11 +304,17 @@
 
 %  draft option (this is where the draft option is actually implemented)
 %
-% \overfullrule = 0pt             % Default is don't mark overfull hboxes.
-\ifnum \@draftmark = 1
-\ssp				  % Single-spaces and
-\overfullrule 5pt		  % causes overfull hboxes to be marked.
-\fi
+\ifnum \@draftmark = 0  % final
+    \linespread{2}  % proper double-spacing.
+    \overfullrule = 0pt             % Default is don't mark overfull hboxes.
+\else \ifnum \@draftmark = 1  % draft
+    \ssp				  % Single-spaces and
+    \overfullrule 5pt		  % causes overfull hboxes to be marked.
+\else  % lulu
+    \ssp				  % Single-spaces and
+    \overfullrule = 0pt             % Default is don't mark overfull hboxes.
+\fi \fi
+
 
 % hyperref defines the command \phantomsection in order to place entries
 % which can be referenced in the TOC.  We provide a null definition if it is not defined. - RMR 2007
