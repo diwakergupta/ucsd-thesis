@@ -398,10 +398,6 @@
 % The name of your specialization (e.g. Anthropogeny, Computational Neuroscience)
 \def\specialization#1{\gdef\@specialization{#1}}
 
-
-% You have to define the campus name twice because I can't figure out
-% how to get the TeX \uppercase macro to work for me (EVM, 9/21/94)
-
 % The name of your UC Campus CAPITALIZED (e.g. Berkeley, Los Angeles)
 \def\@campus{San Diego}
 \def\campus#1{\gdef\@campus{#1}}
@@ -442,7 +438,7 @@
     \null\vfil
   \begin{center}
     \fmfont
-    {\expandafter\MakeUppercase\expandafter{\UCcampusname}}\par
+    {\MakeUppercase{\UCcampusname}}\par
     \bigskip \medskip
     {\bfseries
      {\@title} \par}
@@ -580,7 +576,7 @@ on microfilm and electronically: }}\\
 {\phantomsection % RMR - hyperref requires a \section in order to place a hyperlink
 \addcontentsline{toc}{frontmatter}{\protect\numberline{}\Dedicationname}%
 \begin{alwayssingle}
-  \centerline{\expandafter\uppercase\expandafter{\Dedicationname}}%
+  \centerline{\MakeUppercase{\Dedicationname}}%
   \large\begin{center}
   }
 {\end{center}\end{alwayssingle}}
@@ -590,7 +586,7 @@ on microfilm and electronically: }}\\
 \newenvironment{mydedication}
 {\phantomsection
 \addcontentsline{toc}{frontmatter}{\protect\numberline{}\Dedicationname}%
-  \centerline{\expandafter\uppercase\expandafter{\Dedicationname}}}
+  \centerline{\MakeUppercase{\Dedicationname}}}
 {}
 
 
@@ -604,7 +600,7 @@ on microfilm and electronically: }}\\
 {\phantomsection
 \addcontentsline{toc}{frontmatter}{\protect\numberline{}\Epigraphname}%
 \begin{alwayssingle}
-  \centerline{\expandafter\uppercase\expandafter{\Epigraphname}}%
+  \centerline{\MakeUppercase{\Epigraphname}}%
   \vspace{2in}\hfill\begin{flushright}}
   %\parbox[t]{3in}
 {\end{flushright}\end{alwayssingle}}
@@ -614,7 +610,7 @@ on microfilm and electronically: }}\\
 \newenvironment{myepigraph}
 {\phantomsection
 \addcontentsline{toc}{frontmatter}{\protect\numberline{}\Epigraphname}%
-  \centerline{\expandafter\uppercase\expandafter{\Epigraphname}}}%
+  \centerline{\MakeUppercase{\Epigraphname}}}%
 {}
 
 
@@ -626,7 +622,7 @@ on microfilm and electronically: }}\\
 {\begin{alwayssingle}
 \phantomsection
 \addcontentsline{toc}{frontmatter}{\protect\numberline{}\acknowledgename}%
-\centerline{\expandafter\uppercase\expandafter{\acknowledgename}}%
+\centerline{\MakeUppercase{\acknowledgename}}%
 \bigskip
 }
 {\end{alwayssingle}}
@@ -673,7 +669,7 @@ on microfilm and electronically: }}\\
   \ssp
   {\fmfont
   \null\vspace{1.25in}
-  {\expandafter\uppercase\expandafter{\abstractlongname}}\par
+  {\MakeUppercase{\abstractlongname}}\par
   \vspace{.5in}
   {\bfseries
     {\@title} \par}
@@ -1001,7 +997,7 @@ on microfilm and electronically: }}\\
   \newpage
   \phantomsection
   \addcontentsline{toc}{frontmatter}{\protect\numberline{}\contentslongname}%
-  \centerline{\expandafter\uppercase\expandafter{\contentslongname}}%
+  \centerline{\MakeUppercase{\contentslongname}}%
   \bigskip%
   {\ssp\@starttoc{toc}}\if@restonecol\twocolumn\fi}
 
@@ -1079,7 +1075,7 @@ on microfilm and electronically: }}\\
   \@restonecolfalse%
   \if@twocolumn\@restonecoltrue\onecolumn\fi%
   \newpage%
-  \centerline{\expandafter\uppercase\expandafter{\listfigurename}}%
+  \centerline{\MakeUppercase{\listfigurename}}%
   \bigskip%
   \phantomsection%
   \addcontentsline{toc}{frontmatter}{\protect\numberline{}\listfigurename }%
@@ -1106,7 +1102,7 @@ on microfilm and electronically: }}\\
   \@restonecolfalse%
   \if@twocolumn\@restonecoltrue\onecolumn\fi%
   \newpage%
-  \centerline{\expandafter\uppercase\expandafter{\listtablename}}%
+  \centerline{\MakeUppercase{\listtablename}}%
   \bigskip%
   \phantomsection%
   \addcontentsline{toc}{frontmatter}{\protect\numberline{}\listtablename }%
@@ -1148,7 +1144,7 @@ on microfilm and electronically: }}\\
 %% RmS 92/01/14: Set \p@enumiv to {} and \theenumiv to \arabic{enumiv}
 %%               to get correct references
 \def\thebibliography#1{\chapter*{\bibname\@mkboth
-  {\expandafter\uppercase\expandafter{\bibname}}{\expandafter\uppercase\expandafter{\bibname}}}
+  {\MakeUppercase{\bibname}}{\MakeUppercase{\bibname}}}
   \addcontentsline{toc}{backmatter}{\bibname}
   \ssp %WBB re OGSR style, 6.11.97
   \list{\@biblabel{\arabic{enumiv}}}{\settowidth\labelwidth{\@biblabel{#1}}%
@@ -1183,7 +1179,7 @@ on microfilm and electronically: }}\\
 \def\theindex{\@restonecoltrue\if@twocolumn\@restonecolfalse\fi
 \columnseprule \z@
 \columnsep 35\p@\twocolumn[\@makeschapterhead{\indexname}]%
-    \@mkboth{\uppercase{\indexname}}{\uppercase{\indexname}}%
+    \@mkboth{\MakeUppercase{\indexname}}{\MakeUppercase{\indexname}}%
     \thispagestyle{plain}\parindent\z@
     \parskip\z@ plus .3\p@\relax\let\item\@idxitem
 \phantomsection
@@ -1425,15 +1421,15 @@ on microfilm and electronically: }}\\
  \def\@oddfoot{}\def\@evenfoot{}%       No feet.
  \def\@evenhead{\rmfamily \thepage\hfil \slshape \leftmark}%    Left heading.
  \def\@oddhead{{\slshape \rightmark}\hfil \rmfamily\thepage}% Right heading.
- \def\chaptermark##1{\markboth {\uppercase{\ifnum \c@secnumdepth >\m@ne
+ \def\chaptermark##1{\markboth {\MakeUppercase{\ifnum \c@secnumdepth >\m@ne
       \@chapapp\ \thechapter. \ \fi ##1}}{}}%
- \def\sectionmark##1{\markright {\uppercase{\ifnum \c@secnumdepth >\z@
+ \def\sectionmark##1{\markright {\MakeUppercase{\ifnum \c@secnumdepth >\z@
    \thesection. \ \fi ##1}}}}
 \else               % If one-sided printing.
 \def\ps@headings{\let\@mkboth\markboth
 \def\@oddfoot{}\def\@evenfoot{}%     No feet.
 \def\@oddhead{{\slshape \rightmark}\hfil \rmfamily\thepage}% Heading.
-\def\chaptermark##1{\markright {\uppercase{\ifnum \c@secnumdepth >\m@ne
+\def\chaptermark##1{\markright {\MakeUppercase{\ifnum \c@secnumdepth >\m@ne
   \@chapapp\ \thechapter. \ \fi ##1}}}}
 \fi
 
