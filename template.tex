@@ -249,13 +249,13 @@ While in Section \ref{ssec:figure_example} Figure \ref{fig:sandiego} we had a ma
 
 
 %%%% TABLE 1 %%%%
-\vspace{0.25in}
+\vspace{0.25in}  % Tweak this to give more margin between text and your table caption
 \begin{table}[!ht]
 \caption[Short figure caption (must be \protect{$< 4$} lines in the list of tables)]{A table of when I get hungry.  Note that tables must be on their own line (no neighboring text) and captions must be single-spaced and appear \protect\textit{above} the table.  Captions can be as long as you want, but if they are longer than 4 lines in the list of figures, you must provide a short figure caption.}
+\vspace{-0.15in}  % Tweak this to reduce margin between the caption and your table
 
-\vspace{-0.25in}
 \begin{center}
-\begin{tabular}{|p{1in}|p{2in}|p{3in}|}
+\begin{tabular}{|p{1in}|p{2in}|p{2in}|}
 
 \hline
 Time of day & Hunger Level & Preferred Food \\
