@@ -309,17 +309,6 @@
 \addtolength{\footskip}{.25in}
 %\RequirePackage[paperheight=\paperheight, paperwidth=\paperwidth]{geometry}
 
-
-%% CAPTION
-% This overrides some of the ugliness in ucsd.cls and
-% allows the text to be double-spaced while letting figures,
-% tables, and footnotes to be single-spaced--all OGS requirements.
-% NOTE: Must appear after graphics and ams math
-\let\@currsize\normalsize
-\RequirePackage{scrextend}  % to avoid potential conflicts with caption
-\RequirePackage{caption, setspace}
-\captionsetup{font={small,stretch=1.0},width=0.9\textwidth}
-
 % \smallssp is used to produce tabular environments in the small font.
 % This is required because single-spacing requires a change in font size.
 % \scriptsizessp is a still smaller version of the same thing.
@@ -1515,6 +1504,17 @@ on microfilm and electronically: }}\\
 %
 % \def\@eqnnum{(\theequation)}
 %
+
+
+%% CAPTION
+% This overrides some of the ugliness in ucsd.cls and
+% allows the text to be double-spaced while letting figures,
+% tables, and footnotes to be single-spaced--all OGS requirements.
+% NOTE: Must appear after graphics and ams math
+\let\@currsize\normalsize
+\RequirePackage{scrextend}  % to avoid potential conflicts with caption
+\RequirePackage{setspace}
+\RequirePackage[font={small, stretch=1.0},width=0.9\textwidth]{caption}
 
 
 %    ****************************************
