@@ -243,12 +243,6 @@
 
 \ExecuteOptions{11pt,oneside,final}
 
-% CHOOSING THE TYPE SIZE:
-%
-%  The type size option is handled by reading a different file for each
-%  size, as follows, to define font size-specific commands:
-%       10pt : UCT10, 11pt : UCT11, 12pt : UCT12
-%
 
 %  Two-side or one-side printing.
 %
@@ -973,67 +967,7 @@ on microfilm and electronically: }}\\
 %
 \def\@chapapp{\chaptername}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                        PART                          %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Parts aren't defined by the UCSD OGSR, so this section has been
-% commented out.  Why?  Because the sample pages given in the OGSR
-% guidelines handout doesn't have a sample page for parts, and thus
-% it is unknown how to handle them.  -BB -(WBB)
-% Left in, WBB, but noted; maybe should get rid of this?
-%
-\def\part{\cleardoublepage   % Starts new page.
-   \thispagestyle{plain}%    % Page style of part page is 'plain'
-  \if@twocolumn              % IF two-column style
-     \onecolumn              %  THEN \onecolumn
-     \@tempswatrue           %       @tempswa := true
-    \else \@tempswafalse     %  ELSE @tempswa := false
-  \fi                        % FI
-  \hbox{}\vfil               % Add fil glue to center title
-%  \bgroup  \centering      % BEGIN centering %% Removed 19 Jan 88
-  \secdef\@part\@spart}
 
-\def\@part[#1]#2{\ifnum \c@secnumdepth >-2\relax  % IF secnumdepth > -2
-        \refstepcounter{part}%                    %   THEN step
-                                                  %         part counter
-        \addcontentsline{toc}{part}{\thepart      %        add toc line
-        \hspace{1em}#1}\else                      %   ELSE add
-                                                  %         unnumb. line
-        \addcontentsline{toc}{part}{#1}\fi        % FI
-   \markboth{}{}%
-   {\centering                       % %% added 19 Jan 88
-    \interlinepenalty \@M            %% RmS added 11 Nov 91
-    \ifnum \c@secnumdepth >-2\relax  % IF secnumdepth > -2
-      \huge\bfseries \partname~\thepart    %   THEN Print '\partname' and
-    \par                             %         number in \huge bold.
-    \vskip 20\p@\fi                  %        Add space before title.
-    \Huge \bfseries                        % FI
-    #2\par}\@endpart}                % Print Title in \Huge bold.
-                                     % Bug Fix 13 Nov 89: #1 -> #2
-
-
-% \@endpart finishes the part page
-%
-\def\@endpart{\vfil\newpage   % End page with 1fil glue.
-   \if@twoside                % IF twoside printing
-       \hbox{}%               %   THEN Produce totally blank page
-       \thispagestyle{empty}%
-       \newpage
-   \fi                        % FI
-   \if@tempswa                % IF @tempswa = true
-     \twocolumn               %   THEN \twocolumn
-   \fi}                       % FI
-
-\def\@spart#1{{\centering      % %% added 19 Jan 88
-   \interlinepenalty \@M       %% RmS added 11 Nov 91
-   \Huge \bfseries                   % Print title in \Huge boldface
-   #1\par}\@endpart}
-
-
-
-
-%
 %    ****************************************
 %    *         TABLE OF CONTENTS, ETC.      *
 %    ****************************************
@@ -1095,24 +1029,8 @@ on microfilm and electronically: }}\\
   \addcontentsline{toc}{frontmatter}{\protect\numberline{}\contentslongname}%
   \centerline{\expandafter\uppercase\expandafter{\contentslongname}}%
   \bigskip%
-%  \chapter*{\contentsname
-%        \@mkboth{\uppercase{\contentsname}}{\uppercase{\contentsname}}}%
   {\ssp\@starttoc{toc}}\if@restonecol\twocolumn\fi}
 
-\def\l@part#1#2{\addpenalty{-\@highpenalty}%
-   \addvspace{2.25em plus\p@}% space above part line
-   \begingroup
-   \@tempdima 3em         % width of box holding part number, used by
-     \parindent \z@ \rightskip \@pnumwidth             %% \numberline
-     \parfillskip -\@pnumwidth
-     {\large \bfseries          % set line in \large boldface
-     \leavevmode          % TeX command to enter horizontal mode.
-     #1\hfil \hbox to\@pnumwidth{\hss #2}}\par
-     \nobreak             % Never break after part entry
-    \global\@nobreaktrue                        %% Added 24 May 89 as
-    \everypar{\global\@nobreakfalse\everypar{}}%% suggested by
-                                               %% Jerry Leichter
-   \endgroup}
 
 %% First line of l@chapter changed 24 May 89, as suggested
 %% by Jerry Leichter.
@@ -1269,19 +1187,10 @@ on microfilm and electronically: }}\\
     \sloppy\clubpenalty4000\widowpenalty4000
     \sfcode`\.=\@m}
 
-
 %% 91/08/26 FMI & RmS: introduced warning instead of error
-
 \def\endthebibliography{%
   \def\@noitemerr{\@warning{Empty `thebibliography' environment}}%
   \endlist}
-
-
-% \def\@biblabel#1{[#1]\hfill}  % Produces the label for a \bibitem[...]
-                                % command.
-% \def\@cite#1{[#1]}            % Produces the output of the \cite
-                                % command.
-
 
 
 %    ****************************************
