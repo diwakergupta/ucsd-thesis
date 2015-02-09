@@ -222,6 +222,10 @@
 \DeclareOption{twoside}{\@twosidetrue  \@mparswitchtrue}
 \DeclareOption{draft}{\renewcommand\@draftmark{1}}
 \DeclareOption{final}{\renewcommand\@draftmark{0}}
+
+% Add new language options here
+\newcommand\@lang{en}
+
 % RMR - Toggle how chapters are listed
 \DeclareOption{chapterheads}{\renewcommand\@chapterheadsmark{1}}
 
@@ -303,71 +307,8 @@
 \def\phantomsection{}
 \else \fi
 
-% PREPARING A FOREIGN LANGUAGE VERSION:
-%
-% This document style is for documents prepared in the English language.
-% To prepare a version for another language, various English words must
-% be replaced.  Many of the English words that required replacement are
-% indicated below, where we give the name of the command in which the
-% words appear, and which must be redefined, with the actual words
-% underlined.
-%
-% Other English words that need replacement can be found in the macros
-% supporting the title and approval pages.
-%
-% \tableofcontents:
-\def\contentsshortname{Contents}
-\def\contentslongname{Table of Contents}
-%                 ~~~~~~~~~~~~~~~~~
-% (Changed WBB 5.27.97: added  ``Table of'', re UCSD OGSR style.)
-%
-% \listoffigures:
-\def\listfigurename{List of Figures}
-%                   ~~~~~~~~~~~~~~~
-%
-% \listoftables:
-\def\listtablename{List of Tables}
-%                  ~~~~~~~~~~~~~~
-%
-% \thebibliography:
-\def\bibname{Bibliography}
-%            ~~~~~~~~~~~~
-%
-% \theindex:
-\def\indexname{Index}
-%              ~~~~~
-%
-% figure environment:
-\def\figurename{Figure}
-%               ~~~~~~
-%
-% table environment:
-\def\tablename{Table}
-%              ~~~~~
-%
-% \chapter:
-\def\chaptername{Chapter}
-%                ~~~~~~~
-% \appendix:
-\def\appendixname{Appendix}
-%                 ~~~~~~~~
-% \part
-\def\partname{Part}
-%             ~~~~
-% abstract environment:
-\def\abstractshortname{Abstract of the Dissertation} % Used for TOC
-\def\abstractlongname{Abstract of the Dissertation} % Used for Header
-%                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% dedication:
-\def\dedicationname{Dedication}
-%                   ~~~~~~~~~~
-%
-% acknowledge environment:
-\def\acknowledgename{Acknowledgements}
-%                    ~~~~~~~~~~~~~~~~
-
-\def\UCSD@text@chair{Chair}
-\def\UCSD@text@cochair{Co-Chair}
+% Input class file, based on language
+\input{languages/\@lang.tex}
 %    ****************************************
 %    *             FRONT MATTER             *
 %    ****************************************
@@ -468,22 +409,22 @@
     \null\vfil
   \begin{center}
     \fmfont
-    UNIVERSITY OF CALIFORNIA, {\expandafter\uppercase\expandafter{\@campus}}\par
+    {\expandafter\MakeUppercase\expandafter{\UCcampusname}}\par
     \bigskip \medskip
     {\bfseries
      {\@title} \par}
     \bigskip \medskip
-    A dissertation submitted in partial satisfaction of the \par
+    \Dissertationpreambename \par
 	\smallskip
-    requirements for the degree \par
+    \Requirementspreamblename \par
 	\smallskip
     {\@degreetitle} \par
     \bigskip \medskip
-    in \par
+    \Degreeinpreamblename \par
     \bigskip \medskip
     {\@field}
     \ifx\@specialization\@isnotdefined \else%
-         (with a specialization in {\@specialization})\fi
+         (\Specializationspecname)\fi
     \par
     \bigskip \medskip
     by \par
@@ -493,7 +434,7 @@
   {
     \vspace{6ex}
     \fmsmallfont
-    Committee in charge:
+    \Committeeinchargename:
     \begin{quote}
        {\UCSD@chair}, \UCSD@text@chair\newline
        \ifx\UCSD@cochair\@isnotdefined \else%
@@ -536,7 +477,7 @@ All rights reserved.}
 % (EVM, 9/19/94)
 
 \phantomsection
-\addcontentsline{toc}{frontmatter}{\protect\numberline{}Signature Page}%
+\addcontentsline{toc}{frontmatter}{\protect\numberline{}\Signaturepagename}%
 \begin{alwayssingle}
 \null\vfill
 \begin{center}
@@ -604,9 +545,9 @@ on microfilm and electronically: }}\\
 
 \newenvironment{dedication}
 {\phantomsection % RMR - hyperref requires a \section in order to place a hyperlink
-\addcontentsline{toc}{frontmatter}{\protect\numberline{}Dedication}%
+\addcontentsline{toc}{frontmatter}{\protect\numberline{}\Dedicationname}%
 \begin{alwayssingle}
-  \centerline{\expandafter\uppercase\expandafter{Dedication}}%
+  \centerline{\expandafter\uppercase\expandafter{\Dedicationname}}%
   \large\begin{center}
   }
 {\end{center}\end{alwayssingle}}
@@ -615,8 +556,8 @@ on microfilm and electronically: }}\\
 % user can do whatever they wish.
 \newenvironment{mydedication}
 {\phantomsection
-\addcontentsline{toc}{frontmatter}{\protect\numberline{}Dedication}%
-  \centerline{\expandafter\uppercase\expandafter{Dedication}}}
+\addcontentsline{toc}{frontmatter}{\protect\numberline{}\Dedicationname}%
+  \centerline{\expandafter\uppercase\expandafter{\Dedicationname}}}
 {}
 
 
@@ -628,9 +569,9 @@ on microfilm and electronically: }}\\
 % flush to the right.
 \newenvironment{epigraph}
 {\phantomsection
-\addcontentsline{toc}{frontmatter}{\protect\numberline{}Epigraph}%
+\addcontentsline{toc}{frontmatter}{\protect\numberline{}\Epigraphname}%
 \begin{alwayssingle}
-  \centerline{\expandafter\uppercase\expandafter{Epigraph}}%
+  \centerline{\expandafter\uppercase\expandafter{\Epigraphname}}%
   \vspace{2in}\hfill\begin{flushright}}
   %\parbox[t]{3in}
 {\end{flushright}\end{alwayssingle}}
@@ -639,8 +580,8 @@ on microfilm and electronically: }}\\
 % user can do whatever they wish.
 \newenvironment{myepigraph}
 {\phantomsection
-\addcontentsline{toc}{frontmatter}{\protect\numberline{}Epigraph}%
-  \centerline{\expandafter\uppercase\expandafter{Epigraph}}}%
+\addcontentsline{toc}{frontmatter}{\protect\numberline{}\Epigraphname}%
+  \centerline{\expandafter\uppercase\expandafter{\Epigraphname}}}%
 {}
 
 
@@ -666,18 +607,18 @@ on microfilm and electronically: }}\\
 \def\vitapage{\@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn
      \else \newpage \fi\pagestyle{preliminary}
      \phantomsection
-     \addcontentsline{toc}{frontmatter}{\protect\numberline{}Vita}}
+     \addcontentsline{toc}{frontmatter}{\protect\numberline{}\Vitaname}}
 % Special label for the vita list
 %
 \def\vitalabel#1{#1\hfill}
-\def\vita{\begin{center}VITA\end{center}
+\def\vita{\begin{center}\MakeUppercase{\Vitaname}\end{center}
      \list{}{\ssp \leftmargin 1.5in \labelwidth 1.2in \let\makelabel\vitalabel
            \labelsep 0.3in}}
 \let\endvita\endlist
 
 % For making "bibliographic-like" entries on the Vita page
 %
-\def\publications{\medskip\begin{center}PUBLICATIONS\end{center}
+\def\publications{\medskip\begin{center}\MakeUppercase{\Publicationsname}\end{center}
      \list{}{\ssp \leftmargin\z@}}
 \let\endpublications\endlist
 
