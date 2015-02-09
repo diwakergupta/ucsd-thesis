@@ -290,7 +290,7 @@
 %  size, as follows, to define font size-specific commands:
 %       10pt : UCT10, 11pt : UCT11, 12pt : UCT12
 %
-\input uct1\@ptsize.clo\relax
+\LoadClass{uct1\@ptsize}%\relax
 
 % JRB - Change textheight per OGS.  This gets the page numbers in the
 % right place.
@@ -303,6 +303,7 @@
     \setlength{\textwidth}{4.5in}
     \setlength{\footskip}{.5in}
 \else  % 8.5x11
+
     % According to http://grad.ucsd.edu/_files/academic-affairs/Dissertations_Theses_Formatting_Manual.pdf
     % Top margin: 1"; Left margin: 1.5"; Right margin: 1"; Bottom margin: 1.25"
     \setlength{\paperheight}{11.0in}
