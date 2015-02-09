@@ -328,7 +328,7 @@
 %  draft option (this is where the draft option is actually implemented)
 %
 \ifnum \@draftmark = 0  % final
-    \linespread{2}  % proper double-spacing.
+    \linespread{1.8}  % proper double-spacing.
     \overfullrule = 0pt             % Default is don't mark overfull hboxes.
 \else \ifnum \@draftmark = 1  % draft
     \ssp				  % Single-spaces and
