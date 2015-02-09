@@ -203,7 +203,7 @@
 %%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{ucsd}[2010/06/01 V3.7 University of California, San Diego, Dissertation Class]
+\ProvidesClass{ucsd}[2015/02/08 v4.1 University of California, San Diego, Dissertation Class]
 
 
 %    ****************************************
@@ -292,22 +292,31 @@
 %
 \input uct1\@ptsize.clo\relax
 
-% Set the paper size to letter
-\ifnum \@draftmark = -1
-    \setlength{\paperheight}{9in}
-    \setlength{\paperwidth}{6in}
-\else
-    \setlength{\paperheight}{11.0in}
-    \setlength{\paperwidth}{8.5in}
-\fi
-
-
 % JRB - Change textheight per OGS.  This gets the page numbers in the
 % right place.
-\addtolength{\topmargin}{-.25in}
-\addtolength{\textheight}{.5in}
-\addtolength{\footskip}{.25in}
-%\RequirePackage[paperheight=\paperheight, paperwidth=\paperwidth]{geometry}
+\ifnum \@draftmark = -1  % 6x9; lulu
+    \setlength{\paperheight}{9in}
+    \setlength{\paperwidth}{6in}
+    \setlength{\topmargin}{1in}
+    \setlength{\textheight}{7in}
+    \setlength{\leftmargin}{.75in}
+    \setlength{\textwidth}{4.5in}
+    \setlength{\footskip}{.5in}
+\else  % 8.5x11
+    % According to http://grad.ucsd.edu/_files/academic-affairs/Dissertations_Theses_Formatting_Manual.pdf
+    % Top margin: 1"; Left margin: 1.5"; Right margin: 1"; Bottom margin: 1.25"
+    \setlength{\paperheight}{11.0in}
+    \setlength{\paperwidth}{8.5in}
+    \setlength{\topmargin}{1in}
+    \setlength{\textheight}{8.75in}
+    \setlength{\leftmargin}{1.5in}
+    \setlength{\textwidth}{6in}
+    % Page # should be 0.5" above bottom, or 1.25-0.5=0.75" below the end of text.
+    \setlength{\footskip}{0.75in}
+\fi
+%\RequirePackage[paperheight=\paperheight, paperwidth=\paperwidth]
+\RequirePackage[paperheight=\paperheight, paperwidth=\paperwidth, top=\topmargin, textheight=\textheight, footskip=\footskip, textwidth=\textwidth, left=\leftmargin]{geometry}
+
 
 % \smallssp is used to produce tabular environments in the small font.
 % This is required because single-spacing requires a change in font size.
