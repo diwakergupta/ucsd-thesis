@@ -1530,6 +1530,51 @@ on microfilm and electronically: }}\\
 %    *           INITIALIZATION             *
 %    ****************************************
 %
+\ifnum \@draftmark = -1  % 6x9; lulu
+	
+	\RequirePackage{graphicx}
+	\RequirePackage[monochrome]{xcolor}
+	
+	\RequirePackage{microtype}
+	\RequirePackage{amssymb}
+	\usepackage{titlesec} % to format chapter title pages
+	
+	\RequirePackage[T1]{fontenc}
+	\RequirePackage{tgtermes}    % body font
+	\RequirePackage{inconsolata} % fixed width font
+	\RequirePackage{tgheros}     % sans-serif font
+	
+	\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+	\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+	
+	% set all section headers to be sans serif
+	%\renewcommand*{\familydefault}{\sfdefault}
+	\selectfont{\normalfont\sffamily}
+	
+	% introduce penalty for widows and orphans (can increase to 10 000, although
+	% not recommended)
+	\widowpenalty=300
+	\clubpenalty=300
+	
+	% format chapter title pages
+	\titleformat{\chapter}
+	  [display] % shape/type of title
+	  {\sffamily} % formatting commands applied to both label and title
+	  {\vspace{-2cm} \hfill \Large Chapter \hspace{-0.2cm} \Huge \thechapter} 
+	  {2cm} % separation between number and chapter title
+	  {\Huge} % code preceding title. Last cmd can take arg, which is title
+	  [  % everything inside [] comes after the title
+	     % \hspace*{1cm} % indent author name 
+	     \Large % make text that follows large
+	     \thispagestyle{plain} % suppress page numbers
+	  ]% end of what comes after title
+\fi
+
+
+%    ****************************************
+%    *           INITIALIZATION             *
+%    ****************************************
+%
 % Default initializations
 
 \ps@thesis                   % 'thesis' page style
