@@ -483,17 +483,16 @@
     {\bfseries
      {\@title} \par}
     \bigskip \medskip
-    A Thesis submitted in partial satisfaction of the \par
+    A Thesis submitted in partial satisfaction of the requirements \par
 	\smallskip
-    requirements for the degree \par
-	\smallskip
+    for the degree
     {\@degreetitle} \par
     \bigskip \medskip
     in \par
     \bigskip \medskip
     {\@field}
     \ifx\@specialization\@isnotdefined \else%
-         (with a specialization in {\@specialization})\fi
+         \par \smallskip ({\@specialization})\fi
     \par
     \bigskip \medskip
     by \par
@@ -720,7 +719,7 @@ on microfilm and electronically: }}\\
   \vspace{.3in}
   {\@degreetitle} in \@field
   \ifx\@specialization\@isnotdefined \else
-      \ (with a specialization in \@specialization)
+      \par \smallskip(\@specialization)
   \fi
   \par
   \vspace{.3in}
