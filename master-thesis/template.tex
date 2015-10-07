@@ -17,9 +17,10 @@
 %   Make sure that you check the final document against the Formatting Manual.
 %  
 %   That being said, this class has been routinely used for successful 
-%   publication of doctoral theses.  
+%   publication of doctoral and master theses.  
 %
-%   The ucsd.cls class files are only valid for master thesis.
+%   The ucsd.cls class files within the master-thesis folder is only valid for 
+%   master theses.
 %
 %
 % ----------------------------------------------------------------------
@@ -77,7 +78,7 @@
 % Setup the documentclass 
 % default options: 12pt, oneside, final
 %
-% fonts: 10pt, 11pt, 12pt -- are valid for UCSD thesis.
+% fonts: 10pt, 11pt, 12pt -- are valid for UCSD dissertations and theses.
 % sides: oneside, twoside -- note that two-sided theses are not accepted 
 %                            by OGS.
 % mode: draft, final      -- draft mode switches to single spacing, 
@@ -105,12 +106,27 @@
 
 
 %% AMS PACKAGES - Chances are you will want some or all 
-%    of these if writing a thesis that includes equations.
+%    of these if writing a dissertation/thesis that includes equations.
 %  \usepackage{amsmath, amscd, amssymb, amsthm}
 
 %% GRAPHICX - This is the standard package for 
 %    including graphics for latex/pdflatex.
-%  \usepackage{graphicx}
+\usepackage{scrextend}
+\usepackage{pslatex}
+\usepackage{graphicx}
+
+%% CAPTION
+% This overrides some of the ugliness in ucsd.cls and
+% allows the text to be double-spaced while letting figures,
+% tables, and footnotes to be single-spaced--all OGS requirements.
+% NOTE: Must appear after graphics and ams math
+\makeatletter
+\gdef\@ptsize{2}% 12pt documents
+\let\@currsize\normalsize
+\makeatother
+\usepackage{setspace}
+\doublespace
+\usepackage[font=small, width=0.9\textwidth]{caption}
 
 %% SUBFIG - Use this to place multiple images in a
 %    single figure.  Subfig will handle placement and
@@ -152,11 +168,32 @@
 %              pdfkeywords = {Keywords for Searching}, 
 %              pdfcreator = {pdfLaTeX with hyperref package}, 
 %              pdfproducer = {pdfLaTeX} }
+% \urlstyle{same}
+% \usepackage{bookmark}
+
+
+%% CITATIONS
+% Sets citation format
+% and fixes up citations madness
+\usepackage{microtype}  % avoids citations that hang into the margin
+
+
+%% FOOTNOTE-MAGIC
+% Enables footnotes in tables, re-referencing the same footnote multiple times.
+\usepackage{footnote}
+\makesavenoteenv{tabular}
+\makesavenoteenv{table}
+
+
+%% TABLE FORMATTING MADNESS
+% Enable all sorts of fun table tricks
+\usepackage{rotating}  % Enables the sideways environment (NCPW)
+\usepackage{array}  % Enables "m" tabular environment http://ctan.org/pkg/array
+\usepackage{booktabs}  % Enables \toprule  http://ctan.org/pkg/array
+
 
 
 \begin{document}
-
-
 
 %% FRONT MATTER
 %
@@ -169,7 +206,7 @@
 
 
 
-%% Thesis
+%% THESIS
 
 % A common strategy here is to include files for each of the chapters. I.e.,
 % Place the chapters is separate files: 
@@ -192,22 +229,61 @@ feugiat, ligula odio adipiscing libero, eget mollis nunc erat id orci.
 Nullam ante dolor, rutrum eget, vestibulum euismod, pulvinar at, nibh.
 In sapien. Quisque ut arcu. Suspendisse potenti. Cras consequat cursus
 nulla.
-\subsection{More Stuff}
-Blah
+
+\subsection{A Figure Example}
+\label{ssec:figure_example}
+
+This subsection shows a sample figure.
 
 \begin{figure}[h] 
   \centering
-  *
-  \caption{A figure of Vonnegut.\index{Vonnegut}} 
+  \includegraphics[width=0.5\textwidth]{sandiego}
+  \caption[Short figure caption (must be \protect{$< 4$} lines in the list of figures)]{A picture of San Diego.  Note that figures must be on their own line (no neighboring text) and captions must be single-spaced and appear \protect\textit{below} the figure.  Captions can be as long as you want, but if they are longer than 4 lines in the list of figures, you must provide a short figure caption.\index{SanDiego}} 
+  \label{fig:sandiego}
 \end{figure}
 
+\subsection{A Table Example}
+
+While in Section \ref{ssec:figure_example} Figure \ref{fig:sandiego} we had a majestic figure, here we provide a crazy table example.
 
 
+%%%% TABLE 1 %%%%
+\vspace{0.25in}
+\begin{table}[!ht]
+\caption[Short figure caption (must be \protect{$< 4$} lines in the list of tables)]{A table of when I get hungry.  Note that tables must be on their own line (no neighboring text) and captions must be single-spaced and appear \protect\textit{above} the table.  Captions can be as long as you want, but if they are longer than 4 lines in the list of figures, you must provide a short figure caption.}
+
+\vspace{-0.25in}
+\begin{center}
+\begin{tabular}{|p{1in}|p{2in}|p{2in}|}
+
+\hline
+Time of day & Hunger Level & Preferred Food \\
+
+\hline
+8am & high & IHOP (French Toast) \\
+
+\hline
+noon & medium & Croutons (Tomato Basil Soup \& Granny Smith Chicken Salad) \\
+
+\hline
+5pm & high & Bombay Coast (Saag Paneer) or Hi Thai (Pad See Ew) \\
+
+\hline
+8pm & medium & Yogurt World (froyo!) \\
+
+\hline
+\end{tabular}
+\end{center}
+\label{tab:analysis3}
+\end{table}
+
+
+
+%% APPENDIX
 \appendix
 \chapter{Final notes}
+What to do about things \cite{Martin_1983}.  What did he say \cite{Rilling_Insel_1999}.
   Remove me in case of abdominal pain.
-
-
 
 
 
@@ -215,9 +291,14 @@ Blah
 % \printindex %% Uncomment to display the index
 % \nocite{}  %% Put any references that you want to include in the bib 
 %               but haven't cited in the braces.
-% \bibliographystyle{alpha}  %% This is just my personal favorite style. 
+\bibliographystyle{alpha}  %% This is just my personal favorite style. 
 %                              There are many others.
-% \bibliography{myrefs}  %% This looks for the bibliography in myrefs.bib 
+%\setlength{\bibleftmargin}{0.25in}  % indent each item
+%\setlength{\bibindent}{-\bibleftmargin}  % unindent the first line
+%\def\baselinestretch{1.0}  % force single spacing
+%\setlength{\bibitemsep}{0.16in}  % add extra space between items
+\bibliography{template}  %% This looks for the bibliography in template.bib 
 %                          which should be formatted as a bibtex file.
+%                          and needs to be separately compiled into a bbl file.
 \end{document}
 
