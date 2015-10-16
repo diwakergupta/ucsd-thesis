@@ -138,18 +138,21 @@ Professor Cirius Thinker\\
 %  A brief vita is required in a doctoral thesis. See the OGS
 %  Formatting Manual for more information.
 %
-\begin{vitapage}
-\begin{vita}
-  \item[2002] B.~S. in Mathematics \emph{cum laude}, University of Southern North Dakota, Hoople
-  \item[2002-2007] Graduate Teaching Assistant, University of California, San Diego
-  \item[2007] Ph.~D. in Mathematics, University of California, San Diego
-\end{vita}
-\begin{publications}
-  \item Your Name, ``A Simple Proof Of The Riemann Hypothesis'', \emph{Annals of Math}, 314, 2007.
-  \item Your Name, Euclid, ``There Are Lots Of Prime Numbers'', \emph{Journal of Primes}, 1, 300 B.C.
-\end{publications}
-\end{vitapage}
-
+% Vita is optional for masters thesis; we exclude it here.
+%
+ \ifnum\pdfstrcmp{\@degree}{phd}=0 %
+    \begin{vitapage}
+    \begin{vita}
+      \item[2002] B.~S. in Mathematics \emph{cum laude}, University of Southern North Dakota, Hoople
+      \item[2002-2007] Graduate Teaching Assistant, University of California, San Diego
+      \item[2007] Ph.~D. in Mathematics, University of California, San Diego
+    \end{vita}
+    \begin{publications}
+      \item Your Name, ``A Simple Proof Of The Riemann Hypothesis'', \emph{Annals of Math}, 314, 2007.
+      \item Your Name, Euclid, ``There Are Lots Of Prime Numbers'', \emph{Journal of Primes}, 1, 300 B.C.
+    \end{publications}
+    \end{vitapage}
+\fi
 
 %% ABSTRACT
 %
