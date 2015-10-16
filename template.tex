@@ -2,18 +2,18 @@
 %
 % UCSD Doctoral Dissertation Template
 % -----------------------------------
-% http://ucsd-thesis.googlecode.com
+% https://github.com/ucsd-thesis/ucsd-thesis
 %
 %
 % ----------------------------------------------------------------------
 % WARNING: 
 %
-%   This template has not endorced by OGS or any other official entity.
+%   This template has not endorsed by OGS or any other official entity.
 %   The official formatting guide can be obtained from OGS.
 %   It can be found on the web here:
-%   http://ogs.ucsd.edu/AcademicAffairs/Documents/Dissertations_Theses_Formatting_Manual.pdf
+%   http://grad.ucsd.edu/_files/academic-affairs/Dissertations_Theses_Formatting_Manual.pdf
 %
-%   No guaranty is made that this LaTeX class conforms to the official UCSD guidelines.
+%   No guarantee is made that this LaTeX class conforms to the official UCSD guidelines.
 %   Make sure that you check the final document against the Formatting Manual.
 %  
 %   That being said, this class has been routinely used for successful 
@@ -58,7 +58,7 @@
 % BUGS:
 %
 %   Please report all bugs at:
-%   http://code.google.com/p/ucsd-thesis/issues/list
+%   https://github.com/ucsd-thesis/ucsd-thesis/issues
 %
 %
 % ----------------------------------------------------------------------
@@ -80,18 +80,26 @@
 % fonts: 10pt, 11pt, 12pt -- are valid for UCSD dissertations.
 % sides: oneside, twoside -- note that two-sided theses are not accepted 
 %                            by OGS.
-% mode: draft, final      -- draft mode switches to single spacing, 
+% mode: draft, final, lulu -- 
+%                            draft mode switches to single spacing, 
 %                            removes hyperlinks, and places a black box
 %                            at every overfull hbox (check these before
 %                            submission).
+%
+%                            lulu mode prints to 6x9, single spacing, and ready for 
+%                            double-sided printing.
+%
 % chapterheads            -- Include this if you want your chapters to read:
 %                              Chapter 1
 %                              Title of Chapter
 %
 %                            instead of
 %                              1 Title of Chapter
-\documentclass[12pt,chapterheads]{ucsd}
-
+%
+% en                      (default) you can add translations to languages/[lang].tex,
+%                           then switch languages.
+%
+\documentclass[12pt,final,chapterheads]{ucsd}
 
 
 % Include all packages you need here.  
@@ -110,22 +118,10 @@
 
 %% GRAPHICX - This is the standard package for 
 %    including graphics for latex/pdflatex.
-\usepackage{scrextend}
-\usepackage{pslatex}
-\usepackage{graphicx}
+%\usepackage{scrextend}
+%\usepackage{pslatex}
+%\usepackage{graphicx}
 
-%% CAPTION
-% This overrides some of the ugliness in ucsd.cls and
-% allows the text to be double-spaced while letting figures,
-% tables, and footnotes to be single-spaced--all OGS requirements.
-% NOTE: Must appear after graphics and ams math
-\makeatletter
-\gdef\@ptsize{2}% 12pt documents
-\let\@currsize\normalsize
-\makeatother
-\usepackage{setspace}
-\doublespace
-\usepackage[font=small, width=0.9\textwidth]{caption}
 
 %% SUBFIG - Use this to place multiple images in a
 %    single figure.  Subfig will handle placement and
@@ -237,7 +233,7 @@ This subsection shows a sample figure.
 \begin{figure}[h] 
   \centering
   \includegraphics[width=0.5\textwidth]{sandiego}
-  \caption[Short figure caption (must be \protect{$< 4$} lines in the list of figures)]{A picture of San Diego.  Note that figures must be on their own line (no neighboring text) and captions must be single-spaced and appear \protect\textit{below} the figure.  Captions can be as long as you want, but if they are longer than 4 lines in the list of figures, you must provide a short figure caption.\index{SanDiego}} 
+  \caption[Short figure caption (must be \protect{$< 4$} lines in the list of figures)]{A picture of San Diego.  Note that figures must be on their own line (no neighboring text) and captions must be single-spaced and appear \protect\textit{below} the figure.  Captions can be as long as you want, but if they are longer than 4 lines in the list of figures, you must provide a short figure caption.\protect\index{SanDiego}} 
   \label{fig:sandiego}
 \end{figure}
 
@@ -247,13 +243,15 @@ While in Section \ref{ssec:figure_example} Figure \ref{fig:sandiego} we had a ma
 
 
 %%%% TABLE 1 %%%%
-\vspace{0.25in}
+\vspace{0.25in}  % Tweak this to give more margin between text and your table caption
 \begin{table}[!ht]
 \caption[Short figure caption (must be \protect{$< 4$} lines in the list of tables)]{A table of when I get hungry.  Note that tables must be on their own line (no neighboring text) and captions must be single-spaced and appear \protect\textit{above} the table.  Captions can be as long as you want, but if they are longer than 4 lines in the list of figures, you must provide a short figure caption.}
+\vspace{-0.15in}  % Tweak this to reduce margin between the caption and your table
 
-\vspace{-0.25in}
 \begin{center}
-\begin{tabular}{|p{1in}|p{2in}|p{3in}|}
+% Better to define these in relative terms; makes printing 
+% various sizes / formats easier.
+\begin{tabular}{|p{0.2\textwidth}|p{0.35\textwidth}|p{0.35\textwidth}|}
 
 \hline
 Time of day & Hunger Level & Preferred Food \\

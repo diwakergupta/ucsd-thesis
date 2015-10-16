@@ -203,7 +203,7 @@
 %%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{ucsd}[2010/06/01 V3.7 University of California, San Diego, Dissertation Class]
+\ProvidesClass{ucsd}[2015/02/08 v4.1 University of California, San Diego, Dissertation Class]
 
 
 %    ****************************************
@@ -213,15 +213,23 @@
 % Option values are now declared first thing.  Defaults are set to
 % 11 point, onesided, final (ie not draft) mode (BBF 10/31/94)
 \newcommand\@ptsize{}
-\newcommand\@draftmark{}
-\newcommand\@chapterheadsmark{0}
 \DeclareOption{10pt}{\renewcommand\@ptsize{0}}
 \DeclareOption{11pt}{\renewcommand\@ptsize{1}}
 \DeclareOption{12pt}{\renewcommand\@ptsize{2}}
+
+\newcommand\@chapterheadsmark{0}
 \DeclareOption{oneside}{\@twosidefalse \@mparswitchfalse}
 \DeclareOption{twoside}{\@twosidetrue  \@mparswitchtrue}
+
+
+\newcommand\@draftmark{}
 \DeclareOption{draft}{\renewcommand\@draftmark{1}}
 \DeclareOption{final}{\renewcommand\@draftmark{0}}
+\DeclareOption{lulu}{\renewcommand\@draftmark{-1}}
+
+% Add new language options here
+\newcommand\@lang{en}
+
 % RMR - Toggle how chapters are listed
 \DeclareOption{chapterheads}{\renewcommand\@chapterheadsmark{1}}
 
@@ -243,12 +251,6 @@
 
 \ExecuteOptions{11pt,oneside,final}
 
-% CHOOSING THE TYPE SIZE:
-%
-%  The type size option is handled by reading a different file for each
-%  size, as follows, to define font size-specific commands:
-%       10pt : UCT10, 11pt : UCT11, 12pt : UCT12
-%
 
 %  Two-side or one-side printing.
 %
@@ -281,12 +283,44 @@
 
 \ProcessOptions
 
-\input uct1\@ptsize.clo\relax
-\linespread{2}  % proper double-spacing.
 
-% Set the paper size to letter
-\setlength{\paperheight}{11.0in}
-\setlength{\paperwidth}{8.5in}
+% CHOOSING THE TYPE SIZE:
+%
+%  The type size option is handled by reading a different file for each
+%  size, as follows, to define font size-specific commands:
+%       10pt : UCT10, 11pt : UCT11, 12pt : UCT12
+%
+\LoadClass{uct1\@ptsize}%\relax
+
+% JRB - Change textheight per OGS.  This gets the page numbers in the
+% right place.
+\ifnum \@draftmark = -1  % 6x9; lulu
+    \setlength{\paperheight}{9in}
+    \setlength{\paperwidth}{6in}
+    \setlength{\topmargin}{1in}
+    \setlength{\textheight}{7in}
+    \setlength{\leftmargin}{.75in}
+    \setlength{\textwidth}{4.5in}
+    \setlength{\footskip}{.5in}
+\else  % 8.5x11
+
+    % According to http://grad.ucsd.edu/_files/academic-affairs/Dissertations_Theses_Formatting_Manual.pdf
+    % Top margin: 1"; Left margin: 1.5"; Right margin: 1"; Bottom margin: 1.25"
+    \setlength{\paperheight}{11.0in}
+    \setlength{\paperwidth}{8.5in}
+    \setlength{\topmargin}{1in}
+    \setlength{\textheight}{8.75in}
+    \setlength{\leftmargin}{1.5in}
+    \setlength{\textwidth}{6in}
+    % Page # should be 0.5" above bottom, or 1.25-0.5=0.75" below the end of text.
+    \setlength{\footskip}{0.75in}
+    \setlength{\headheight}{0.5in} % page # should be 0.5" below top of page.
+    \setlength{\headsep}{0.5in}   % total 1 " top margin
+\fi
+% See ftp://ftp.tex.ac.uk/tex-archive/macros/latex/contrib/geometry/geometry.pdf
+% for mappings from OGS to geometry package.
+\RequirePackage[paperheight=\paperheight, paperwidth=\paperwidth, top=\topmargin, textheight=\textheight, footskip=\footskip, textwidth=\textwidth, left=\leftmargin, headheight=\headheight, headsep=\headsep]{geometry}
+
 
 % \smallssp is used to produce tabular environments in the small font.
 % This is required because single-spacing requires a change in font size.
@@ -297,11 +331,17 @@
 
 %  draft option (this is where the draft option is actually implemented)
 %
-% \overfullrule = 0pt             % Default is don't mark overfull hboxes.
-\ifnum \@draftmark = 1
-\ssp				  % Single-spaces and
-\overfullrule 5pt		  % causes overfull hboxes to be marked.
-\fi
+\ifnum \@draftmark = 0  % final
+    \linespread{1.8}  % proper double-spacing.
+    \overfullrule = 0pt             % Default is don't mark overfull hboxes.
+\else \ifnum \@draftmark = 1  % draft
+    \ssp				  % Single-spaces and
+    \overfullrule 5pt		  % causes overfull hboxes to be marked.
+\else  % lulu
+    \ssp				  % Single-spaces and
+    \overfullrule = 0pt             % Default is don't mark overfull hboxes.
+\fi \fi
+
 
 % hyperref defines the command \phantomsection in order to place entries
 % which can be referenced in the TOC.  We provide a null definition if it is not defined. - RMR 2007
@@ -309,71 +349,9 @@
 \def\phantomsection{}
 \else \fi
 
-% PREPARING A FOREIGN LANGUAGE VERSION:
-%
-% This document style is for documents prepared in the English language.
-% To prepare a version for another language, various English words must
-% be replaced.  Many of the English words that required replacement are
-% indicated below, where we give the name of the command in which the
-% words appear, and which must be redefined, with the actual words
-% underlined.
-%
-% Other English words that need replacement can be found in the macros
-% supporting the title and approval pages.
-%
-% \tableofcontents:
-\def\contentsshortname{Contents}
-\def\contentslongname{Table of Contents}
-%                 ~~~~~~~~~~~~~~~~~
-% (Changed WBB 5.27.97: added  ``Table of'', re UCSD OGSR style.)
-%
-% \listoffigures:
-\def\listfigurename{List of Figures}
-%                   ~~~~~~~~~~~~~~~
-%
-% \listoftables:
-\def\listtablename{List of Tables}
-%                  ~~~~~~~~~~~~~~
-%
-% \thebibliography:
-\def\bibname{Bibliography}
-%            ~~~~~~~~~~~~
-%
-% \theindex:
-\def\indexname{Index}
-%              ~~~~~
-%
-% figure environment:
-\def\figurename{Figure}
-%               ~~~~~~
-%
-% table environment:
-\def\tablename{Table}
-%              ~~~~~
-%
-% \chapter:
-\def\chaptername{Chapter}
-%                ~~~~~~~
-% \appendix:
-\def\appendixname{Appendix}
-%                 ~~~~~~~~
-% \part
-\def\partname{Part}
-%             ~~~~
-% abstract environment:
-\def\abstractshortname{Abstract of the Dissertation} % Used for TOC
-\def\abstractlongname{Abstract of the Dissertation} % Used for Header
-%                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% dedication:
-\def\dedicationname{Dedication}
-%                   ~~~~~~~~~~
-%
-% acknowledge environment:
-\def\acknowledgename{Acknowledgements}
-%                    ~~~~~~~~~~~~~~~~
+% Input class file, based on language
+\input{languages/\@lang.tex}
 
-\def\UCSD@text@chair{Chair}
-\def\UCSD@text@cochair{Co-Chair}
 %    ****************************************
 %    *             FRONT MATTER             *
 %    ****************************************
@@ -424,13 +402,9 @@
 % The name of your specialization (e.g. Anthropogeny, Computational Neuroscience)
 \def\specialization#1{\gdef\@specialization{#1}}
 
-
-% You have to define the campus name twice because I can't figure out
-% how to get the TeX \uppercase macro to work for me (EVM, 9/21/94)
-
 % The name of your UC Campus CAPITALIZED (e.g. Berkeley, Los Angeles)
-% \def\campus#1{\gdef\@campus{#1}}
 \def\@campus{San Diego}
+\def\campus#1{\gdef\@campus{#1}}
 
 \def\includefigureindex#1{\gdef\@includefigureindex{#1}}
 \def\includetableindex#1{\gdef\@includetableindex{#1}}
@@ -455,12 +429,6 @@
 \def\fmfont{\fontsize\@xiipt{14.5}\selectfont}
 \def\fmsmallfont{\fontsize\@xiipt{14pt}\selectfont}
 
-% JRB - Change textheight per OGS.  This gets the page numbers in the
-% right place.
-\addtolength{\topmargin}{-.5in}
-\addtolength{\textheight}{.5in}
-\addtolength{\footskip}{.25in}
-
 \def\makefrontmatter{
 % TITLE PAGE.
 % This is the first page of the dissertation.  The format
@@ -474,22 +442,22 @@
     \null\vfil
   \begin{center}
     \fmfont
-    UNIVERSITY OF CALIFORNIA, {\expandafter\uppercase\expandafter{\@campus}}\par
+    {\MakeUppercase{\UCcampusname}}\par
     \bigskip \medskip
     {\bfseries
      {\@title} \par}
     \bigskip \medskip
-    A dissertation submitted in partial satisfaction of the \par
+    \Dissertationpreambename \par
 	\smallskip
-    requirements for the degree \par
+    \Requirementspreamblename \par
 	\smallskip
     {\@degreetitle} \par
     \bigskip \medskip
-    in \par
+    \Degreeinpreamblename \par
     \bigskip \medskip
     {\@field}
     \ifx\@specialization\@isnotdefined \else%
-         (with a specialization in {\@specialization})\fi
+         (\Specializationspecname)\fi
     \par
     \bigskip \medskip
     by \par
@@ -499,7 +467,7 @@
   {
     \vspace{6ex}
     \fmsmallfont
-    Committee in charge:
+    \Committeeinchargename:
     \begin{quote}
        {\UCSD@chair}, \UCSD@text@chair\newline
        \ifx\UCSD@cochair\@isnotdefined \else%
@@ -542,7 +510,7 @@ All rights reserved.}
 % (EVM, 9/19/94)
 
 \phantomsection
-\addcontentsline{toc}{frontmatter}{\protect\numberline{}Signature Page}%
+\addcontentsline{toc}{frontmatter}{\protect\numberline{}\Signaturepagename}%
 \begin{alwayssingle}
 \null\vfill
 \begin{center}
@@ -610,9 +578,9 @@ on microfilm and electronically: }}\\
 
 \newenvironment{dedication}
 {\phantomsection % RMR - hyperref requires a \section in order to place a hyperlink
-\addcontentsline{toc}{frontmatter}{\protect\numberline{}Dedication}%
+\addcontentsline{toc}{frontmatter}{\protect\numberline{}\Dedicationname}%
 \begin{alwayssingle}
-  \centerline{\expandafter\uppercase\expandafter{Dedication}}%
+  \centerline{\MakeUppercase{\Dedicationname}}%
   \large\begin{center}
   }
 {\end{center}\end{alwayssingle}}
@@ -621,8 +589,8 @@ on microfilm and electronically: }}\\
 % user can do whatever they wish.
 \newenvironment{mydedication}
 {\phantomsection
-\addcontentsline{toc}{frontmatter}{\protect\numberline{}Dedication}%
-  \centerline{\expandafter\uppercase\expandafter{Dedication}}}
+\addcontentsline{toc}{frontmatter}{\protect\numberline{}\Dedicationname}%
+  \centerline{\MakeUppercase{\Dedicationname}}}
 {}
 
 
@@ -634,9 +602,9 @@ on microfilm and electronically: }}\\
 % flush to the right.
 \newenvironment{epigraph}
 {\phantomsection
-\addcontentsline{toc}{frontmatter}{\protect\numberline{}Epigraph}%
+\addcontentsline{toc}{frontmatter}{\protect\numberline{}\Epigraphname}%
 \begin{alwayssingle}
-  \centerline{\expandafter\uppercase\expandafter{Epigraph}}%
+  \centerline{\MakeUppercase{\Epigraphname}}%
   \vspace{2in}\hfill\begin{flushright}}
   %\parbox[t]{3in}
 {\end{flushright}\end{alwayssingle}}
@@ -645,8 +613,8 @@ on microfilm and electronically: }}\\
 % user can do whatever they wish.
 \newenvironment{myepigraph}
 {\phantomsection
-\addcontentsline{toc}{frontmatter}{\protect\numberline{}Epigraph}%
-  \centerline{\expandafter\uppercase\expandafter{Epigraph}}}%
+\addcontentsline{toc}{frontmatter}{\protect\numberline{}\Epigraphname}%
+  \centerline{\MakeUppercase{\Epigraphname}}}%
 {}
 
 
@@ -658,7 +626,7 @@ on microfilm and electronically: }}\\
 {\begin{alwayssingle}
 \phantomsection
 \addcontentsline{toc}{frontmatter}{\protect\numberline{}\acknowledgename}%
-\centerline{\expandafter\uppercase\expandafter{\acknowledgename}}%
+\centerline{\MakeUppercase{\acknowledgename}}%
 \bigskip
 }
 {\end{alwayssingle}}
@@ -672,18 +640,18 @@ on microfilm and electronically: }}\\
 \def\vitapage{\@restonecolfalse\if@twocolumn\@restonecoltrue\onecolumn
      \else \newpage \fi\pagestyle{preliminary}
      \phantomsection
-     \addcontentsline{toc}{frontmatter}{\protect\numberline{}Vita}}
+     \addcontentsline{toc}{frontmatter}{\protect\numberline{}\Vitaname}}
 % Special label for the vita list
 %
 \def\vitalabel#1{#1\hfill}
-\def\vita{\begin{center}VITA\end{center}
+\def\vita{\begin{center}\MakeUppercase{\Vitaname}\end{center}
      \list{}{\ssp \leftmargin 1.5in \labelwidth 1.2in \let\makelabel\vitalabel
            \labelsep 0.3in}}
 \let\endvita\endlist
 
 % For making "bibliographic-like" entries on the Vita page
 %
-\def\publications{\medskip\begin{center}PUBLICATIONS\end{center}
+\def\publications{\medskip\begin{center}\MakeUppercase{\Publicationsname}\end{center}
      \list{}{\ssp \leftmargin\z@}}
 \let\endpublications\endlist
 
@@ -705,7 +673,7 @@ on microfilm and electronically: }}\\
   \ssp
   {\fmfont
   \null\vspace{1.25in}
-  {\expandafter\uppercase\expandafter{\abstractlongname}}\par
+  {\MakeUppercase{\abstractlongname}}\par
   \vspace{.5in}
   {\bfseries
     {\@title} \par}
@@ -973,67 +941,7 @@ on microfilm and electronically: }}\\
 %
 \def\@chapapp{\chaptername}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                        PART                          %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Parts aren't defined by the UCSD OGSR, so this section has been
-% commented out.  Why?  Because the sample pages given in the OGSR
-% guidelines handout doesn't have a sample page for parts, and thus
-% it is unknown how to handle them.  -BB -(WBB)
-% Left in, WBB, but noted; maybe should get rid of this?
-%
-\def\part{\cleardoublepage   % Starts new page.
-   \thispagestyle{plain}%    % Page style of part page is 'plain'
-  \if@twocolumn              % IF two-column style
-     \onecolumn              %  THEN \onecolumn
-     \@tempswatrue           %       @tempswa := true
-    \else \@tempswafalse     %  ELSE @tempswa := false
-  \fi                        % FI
-  \hbox{}\vfil               % Add fil glue to center title
-%  \bgroup  \centering      % BEGIN centering %% Removed 19 Jan 88
-  \secdef\@part\@spart}
 
-\def\@part[#1]#2{\ifnum \c@secnumdepth >-2\relax  % IF secnumdepth > -2
-        \refstepcounter{part}%                    %   THEN step
-                                                  %         part counter
-        \addcontentsline{toc}{part}{\thepart      %        add toc line
-        \hspace{1em}#1}\else                      %   ELSE add
-                                                  %         unnumb. line
-        \addcontentsline{toc}{part}{#1}\fi        % FI
-   \markboth{}{}%
-   {\centering                       % %% added 19 Jan 88
-    \interlinepenalty \@M            %% RmS added 11 Nov 91
-    \ifnum \c@secnumdepth >-2\relax  % IF secnumdepth > -2
-      \huge\bfseries \partname~\thepart    %   THEN Print '\partname' and
-    \par                             %         number in \huge bold.
-    \vskip 20\p@\fi                  %        Add space before title.
-    \Huge \bfseries                        % FI
-    #2\par}\@endpart}                % Print Title in \Huge bold.
-                                     % Bug Fix 13 Nov 89: #1 -> #2
-
-
-% \@endpart finishes the part page
-%
-\def\@endpart{\vfil\newpage   % End page with 1fil glue.
-   \if@twoside                % IF twoside printing
-       \hbox{}%               %   THEN Produce totally blank page
-       \thispagestyle{empty}%
-       \newpage
-   \fi                        % FI
-   \if@tempswa                % IF @tempswa = true
-     \twocolumn               %   THEN \twocolumn
-   \fi}                       % FI
-
-\def\@spart#1{{\centering      % %% added 19 Jan 88
-   \interlinepenalty \@M       %% RmS added 11 Nov 91
-   \Huge \bfseries                   % Print title in \Huge boldface
-   #1\par}\@endpart}
-
-
-
-
-%
 %    ****************************************
 %    *         TABLE OF CONTENTS, ETC.      *
 %    ****************************************
@@ -1093,26 +1001,10 @@ on microfilm and electronically: }}\\
   \newpage
   \phantomsection
   \addcontentsline{toc}{frontmatter}{\protect\numberline{}\contentslongname}%
-  \centerline{\expandafter\uppercase\expandafter{\contentslongname}}%
+  \centerline{\MakeUppercase{\contentslongname}}%
   \bigskip%
-%  \chapter*{\contentsname
-%        \@mkboth{\uppercase{\contentsname}}{\uppercase{\contentsname}}}%
   {\ssp\@starttoc{toc}}\if@restonecol\twocolumn\fi}
 
-\def\l@part#1#2{\addpenalty{-\@highpenalty}%
-   \addvspace{2.25em plus\p@}% space above part line
-   \begingroup
-   \@tempdima 3em         % width of box holding part number, used by
-     \parindent \z@ \rightskip \@pnumwidth             %% \numberline
-     \parfillskip -\@pnumwidth
-     {\large \bfseries          % set line in \large boldface
-     \leavevmode          % TeX command to enter horizontal mode.
-     #1\hfil \hbox to\@pnumwidth{\hss #2}}\par
-     \nobreak             % Never break after part entry
-    \global\@nobreaktrue                        %% Added 24 May 89 as
-    \everypar{\global\@nobreakfalse\everypar{}}%% suggested by
-                                               %% Jerry Leichter
-   \endgroup}
 
 %% First line of l@chapter changed 24 May 89, as suggested
 %% by Jerry Leichter.
@@ -1187,7 +1079,7 @@ on microfilm and electronically: }}\\
   \@restonecolfalse%
   \if@twocolumn\@restonecoltrue\onecolumn\fi%
   \newpage%
-  \centerline{\expandafter\uppercase\expandafter{\listfigurename}}%
+  \centerline{\MakeUppercase{\listfigurename}}%
   \bigskip%
   \phantomsection%
   \addcontentsline{toc}{frontmatter}{\protect\numberline{}\listfigurename }%
@@ -1214,7 +1106,7 @@ on microfilm and electronically: }}\\
   \@restonecolfalse%
   \if@twocolumn\@restonecoltrue\onecolumn\fi%
   \newpage%
-  \centerline{\expandafter\uppercase\expandafter{\listtablename}}%
+  \centerline{\MakeUppercase{\listtablename}}%
   \bigskip%
   \phantomsection%
   \addcontentsline{toc}{frontmatter}{\protect\numberline{}\listtablename }%
@@ -1256,7 +1148,7 @@ on microfilm and electronically: }}\\
 %% RmS 92/01/14: Set \p@enumiv to {} and \theenumiv to \arabic{enumiv}
 %%               to get correct references
 \def\thebibliography#1{\chapter*{\bibname\@mkboth
-  {\expandafter\uppercase\expandafter{\bibname}}{\expandafter\uppercase\expandafter{\bibname}}}
+  {\MakeUppercase{\bibname}}{\MakeUppercase{\bibname}}}
   \addcontentsline{toc}{backmatter}{\bibname}
   \ssp %WBB re OGSR style, 6.11.97
   \list{\@biblabel{\arabic{enumiv}}}{\settowidth\labelwidth{\@biblabel{#1}}%
@@ -1269,19 +1161,10 @@ on microfilm and electronically: }}\\
     \sloppy\clubpenalty4000\widowpenalty4000
     \sfcode`\.=\@m}
 
-
 %% 91/08/26 FMI & RmS: introduced warning instead of error
-
 \def\endthebibliography{%
   \def\@noitemerr{\@warning{Empty `thebibliography' environment}}%
   \endlist}
-
-
-% \def\@biblabel#1{[#1]\hfill}  % Produces the label for a \bibitem[...]
-                                % command.
-% \def\@cite#1{[#1]}            % Produces the output of the \cite
-                                % command.
-
 
 
 %    ****************************************
@@ -1300,7 +1183,7 @@ on microfilm and electronically: }}\\
 \def\theindex{\@restonecoltrue\if@twocolumn\@restonecolfalse\fi
 \columnseprule \z@
 \columnsep 35\p@\twocolumn[\@makeschapterhead{\indexname}]%
-    \@mkboth{\uppercase{\indexname}}{\uppercase{\indexname}}%
+    \@mkboth{\MakeUppercase{\indexname}}{\MakeUppercase{\indexname}}%
     \thispagestyle{plain}\parindent\z@
     \parskip\z@ plus .3\p@\relax\let\item\@idxitem
 \phantomsection
@@ -1542,15 +1425,15 @@ on microfilm and electronically: }}\\
  \def\@oddfoot{}\def\@evenfoot{}%       No feet.
  \def\@evenhead{\rmfamily \thepage\hfil \slshape \leftmark}%    Left heading.
  \def\@oddhead{{\slshape \rightmark}\hfil \rmfamily\thepage}% Right heading.
- \def\chaptermark##1{\markboth {\uppercase{\ifnum \c@secnumdepth >\m@ne
+ \def\chaptermark##1{\markboth {\MakeUppercase{\ifnum \c@secnumdepth >\m@ne
       \@chapapp\ \thechapter. \ \fi ##1}}{}}%
- \def\sectionmark##1{\markright {\uppercase{\ifnum \c@secnumdepth >\z@
+ \def\sectionmark##1{\markright {\MakeUppercase{\ifnum \c@secnumdepth >\z@
    \thesection. \ \fi ##1}}}}
 \else               % If one-sided printing.
 \def\ps@headings{\let\@mkboth\markboth
 \def\@oddfoot{}\def\@evenfoot{}%     No feet.
 \def\@oddhead{{\slshape \rightmark}\hfil \rmfamily\thepage}% Heading.
-\def\chaptermark##1{\markright {\uppercase{\ifnum \c@secnumdepth >\m@ne
+\def\chaptermark##1{\markright {\MakeUppercase{\ifnum \c@secnumdepth >\m@ne
   \@chapapp\ \thechapter. \ \fi ##1}}}}
 \fi
 
@@ -1630,6 +1513,62 @@ on microfilm and electronically: }}\\
 %
 % \def\@eqnnum{(\theequation)}
 %
+
+
+%% CAPTION
+% This overrides some of the ugliness in ucsd.cls and
+% allows the text to be double-spaced while letting figures,
+% tables, and footnotes to be single-spaced--all OGS requirements.
+% NOTE: Must appear after graphics and ams math
+\let\@currsize\normalsize
+\RequirePackage{scrextend}  % to avoid potential conflicts with caption
+\RequirePackage{setspace}
+\RequirePackage[font={small, stretch=1.0},width=0.9\textwidth]{caption}
+
+
+%    ****************************************
+%    *           INITIALIZATION             *
+%    ****************************************
+%
+\ifnum \@draftmark = -1  % 6x9; lulu
+	
+	\RequirePackage{graphicx}
+	\RequirePackage[monochrome]{xcolor}
+	
+	\RequirePackage{microtype}
+	\RequirePackage{amssymb}
+	\usepackage{titlesec} % to format chapter title pages
+	
+	\RequirePackage[T1]{fontenc}
+	\RequirePackage{tgtermes}    % body font
+	\RequirePackage{inconsolata} % fixed width font
+	\RequirePackage{tgheros}     % sans-serif font
+	
+	\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+	\renewcommand{\sectionmark}[1]{\markright{#1}{}}
+	
+	% set all section headers to be sans serif
+	%\renewcommand*{\familydefault}{\sfdefault}
+	\selectfont{\normalfont\sffamily}
+	
+	% introduce penalty for widows and orphans (can increase to 10 000, although
+	% not recommended)
+	\widowpenalty=300
+	\clubpenalty=300
+	
+	% format chapter title pages
+	\titleformat{\chapter}
+	  [display] % shape/type of title
+	  {\sffamily} % formatting commands applied to both label and title
+	  {\vspace{-2cm} \hfill \Large Chapter \hspace{-0.2cm} \Huge \thechapter} 
+	  {2cm} % separation between number and chapter title
+	  {\Huge} % code preceding title. Last cmd can take arg, which is title
+	  [  % everything inside [] comes after the title
+	     % \hspace*{1cm} % indent author name 
+	     \Large % make text that follows large
+	     \thispagestyle{plain} % suppress page numbers
+	  ]% end of what comes after title
+\fi
 
 
 %    ****************************************
