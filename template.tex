@@ -1,6 +1,6 @@
 %
 %
-% UCSD Doctoral Dissertation Template
+% UCSD Doctoral Dissertation and Masters Thesis Template
 % -----------------------------------
 % https://github.com/ucsd-thesis/ucsd-thesis
 %
@@ -19,8 +19,8 @@
 %   That being said, this class has been routinely used for successful 
 %   publication of doctoral theses.  
 %
-%   The ucsd.cls class files are only valid for doctoral dissertations.
-%
+%   The ucsd.cls class files are valid for doctoral dissertations and
+%    masters theses.
 %
 % ----------------------------------------------------------------------
 % GETTING STARTED:
@@ -77,7 +77,7 @@
 % Setup the documentclass 
 % default options: 12pt, oneside, final
 %
-% fonts: 10pt, 11pt, 12pt -- are valid for UCSD dissertations.
+% fonts: 10pt, 11pt, 12pt -- are valid for UCSD dissertations and theses.
 % sides: oneside, twoside -- note that two-sided theses are not accepted 
 %                            by OGS.
 % mode: draft, final, lulu -- 
@@ -89,6 +89,9 @@
 %                            lulu mode prints to 6x9, single spacing, and ready for 
 %                            double-sided printing.
 %
+% degree: phd, masters --
+%                            this changes the template to conform to (dissertation or thesis needs)
+%
 % chapterheads            -- Include this if you want your chapters to read:
 %                              Chapter 1
 %                              Title of Chapter
@@ -99,7 +102,7 @@
 % en                      (default) you can add translations to languages/[lang].tex,
 %                           then switch languages.
 %
-\documentclass[12pt,final,chapterheads]{ucsd}
+\documentclass[12pt,final,phd,chapterheads]{ucsd}  % or masters instead of phd
 
 
 % Include all packages you need here.  
@@ -113,7 +116,7 @@
 
 
 %% AMS PACKAGES - Chances are you will want some or all 
-%    of these if writing a dissertation that includes equations.
+%    of these if writing a dissertation/thesis that includes equations.
 %  \usepackage{amsmath, amscd, amssymb, amsthm}
 
 %% GRAPHICX - This is the standard package for 
@@ -159,7 +162,7 @@
 %             urlcolor=black, plainpages=false,
 %             pdfpagelabels]{hyperref}
 % \hypersetup{ pdfauthor = {Your Name Here}, 
-%              pdftitle = {The Title of The Dissertation}, 
+%              pdftitle = {The Title of The \doctype}, 
 %              pdfkeywords = {Keywords for Searching}, 
 %              pdfcreator = {pdfLaTeX with hyperref package}, 
 %              pdfproducer = {pdfLaTeX} }
@@ -172,6 +175,8 @@
 % and fixes up citations madness
 \usepackage{microtype}  % avoids citations that hang into the margin
 
+%% String comparisons
+\usepackage{pdftexcmds}
 
 %% FOOTNOTE-MAGIC
 % Enables footnotes in tables, re-referencing the same footnote multiple times.

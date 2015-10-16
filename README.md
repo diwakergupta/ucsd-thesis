@@ -7,12 +7,11 @@ Contents
 
 This folder should contain:
 
-* **template.tex**             Primary Driver File
-* **template_frontmatter.tex** Where the title, abstract, etc. are held.
+* **template.tex**             Primary Driver File (edit!)
+* **template_frontmatter.tex** Where the title, abstract, etc. are held (edit!).
+* **languages/en.tex**         Strings used in the document (do not edit). 
 * **ucsd.cls**                 LaTeX class file
-* **uct10.clo**                Font files associated to LaTeX class file
-* **uct11.clo**
-* **uct12.clo**
+* **uct12.clo**                Font files associated to LaTeX class file
 
 Instructions
 ------------
@@ -31,6 +30,10 @@ A common alternate strategy is to include a files for each of the chapters
 \include{chapter1}
 ```
 
+For masters degree: change 'phd' to 'masters' in `template.tex:105`
+* All template changes should be automatic.
+
+
 For more information go to the [project wiki page][1].
 
 [1]: http://code.google.com/p/ucsd-thesis/wiki/GettingStarted
@@ -42,7 +45,7 @@ This template has not endorced by OGS or any other official entity.
 The official formatting guide can be obtained from
 [OGS](http://ogs.ucsd.edu/AcademicAffairs/Documents/Dissertations_Theses_Formatting_Manual.pdf).
 
-No guaranty is made that this LaTeX class conforms to the official UCSD guidelines.
+No guarantee is made that this LaTeX class conforms to the official UCSD guidelines.
 Make sure that you check the final document against the Formatting Manual.
 
 That being said, this class has been routinely used for successful

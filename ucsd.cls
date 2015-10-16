@@ -1,5 +1,5 @@
     %
-% UCSD Dissertation Class
+% UCSD Dissertation/Thesis Class
 %
 %   For the latest version go to:
 %     http://ucsd-thesis.googlecode.com
@@ -24,7 +24,7 @@
 %%%     docstring       = "This file is the main file for the ucsd-thesis
 %%%                        class, which is intended to meet the requirements
 %%%                        for University of California San Diego
-%%%                        Ph.D. dissertations.",
+%%%                        Ph.D. dissertations and masters theses.",
 %%%
 %%%
 %%%                    UCTHESIS.STY v2.7 is based on the standard
@@ -203,7 +203,7 @@
 %%%
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{ucsd}[2015/02/08 v4.1 University of California, San Diego, Dissertation Class]
+\ProvidesClass{ucsd}[2015/10/31 v4.2 University of California, San Diego, Dissertation/Thesis Class]
 
 
 %    ****************************************
@@ -221,11 +221,14 @@
 \DeclareOption{oneside}{\@twosidefalse \@mparswitchfalse}
 \DeclareOption{twoside}{\@twosidetrue  \@mparswitchtrue}
 
-
 \newcommand\@draftmark{}
 \DeclareOption{draft}{\renewcommand\@draftmark{1}}
 \DeclareOption{final}{\renewcommand\@draftmark{0}}
 \DeclareOption{lulu}{\renewcommand\@draftmark{-1}}
+
+\newcommand\@degree{phd}
+\DeclareOption{masters}{\renewcommand\@degree{masters}}
+\DeclareOption{phd}{\renewcommand\@degree{phd}}
 
 % Add new language options here
 \newcommand\@lang{en}
@@ -431,7 +434,7 @@
 
 \def\makefrontmatter{
 % TITLE PAGE.
-% This is the first page of the dissertation.  The format
+% This is the first page of the dissertation/thesis.  The format
 % is specified by OGS.
 %
 {\ssp
@@ -516,7 +519,7 @@ All rights reserved.}
 \begin{center}
 \vspace{.25in}
 \vspace{\@approvalspace}
-\makebox[4in][l]{\parbox{4in}{\fmfont The dissertation of {\@author}
+\makebox[4in][l]{\parbox{4in}{\fmfont The {\doctype} of {\@author}
 is approved, and it is acceptable in quality and form for publication
 on microfilm and electronically: }}\\
 \begin{tabular*}{4in}[t]{r@{\extracolsep{\fill}}r}
@@ -659,7 +662,7 @@ on microfilm and electronically: }}\\
 %
 % The ABSTRACT environment allows for multi-page abstracts which,
 % in accordance with UC rules, is numbered separately from the rest
-% of the rest of the dissertation in Arabic.  It requires definition
+% of the rest of the dissertation/thesis in Arabic.  It requires definition
 % of the \title, \author, \degreetitle, \field, \campus, and \chair macros.
 % The page numbering is in the usual sequence for UCSD OGS--WBB.
 %
@@ -713,7 +716,7 @@ on microfilm and electronically: }}\\
 % The FRONTMATTER environment makes sure that page numbering is set
 % correctly (roman, lower-case, starting at 3) for the front matter
 % that follows the abstract.  It also resets page-numbering for
-% the remainder of the dissertation (arabic, starting at 1).
+% the remainder of the dissertation/thesis (arabic, starting at 1).
 % (WBB) At UCSD: put everything, including \titlepage,\copyrightpage,
 % \approvalpage in frontmatter.
 % Changed def. WBB to go with change in use of frontmatter.

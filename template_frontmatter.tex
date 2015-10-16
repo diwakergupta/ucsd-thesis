@@ -11,7 +11,7 @@
 
 % No symbols, formulas, superscripts, or Greek letters are allowed
 % in your title.
-\title{The Title Of The Dissertation}
+\title{The Title Of The {\doctype}}
 
 \author{Your Name Here}
 \degreeyear{\the\year}
@@ -19,10 +19,10 @@
 
 
 % Master's Degree theses will NOT be formatted properly with this file.
-\degreetitle{Doctor of Philosophy}
+\degreetitle{\thedegree}
 
 \field{Mathematics}
-\specialization{Anthropogeny}  % If you have a specialization, add it here
+% \specialization{Anthropogeny}  % If you have a specialization, add it here
 
 \chair{Professor Chair Master}
 % Uncomment the next line iff you have a Co-Chair
@@ -37,8 +37,11 @@ Professor Humor Less\\
 Professor Ironic Name\\
 Professor Cirius Thinker\\
 }
-\numberofmembers{4} % |chair| + |cochair| + |othermembers|
-
+ \ifnum\pdfstrcmp{\@degree}{masters}=0 %
+    \numberofmembers{3} % |chair| + |cochair| + |othermembers|
+\else
+    \numberofmembers{4} % |chair| + |cochair| + |othermembers|
+\fi
 
 %% START THE FRONTMATTER
 %
@@ -138,26 +141,29 @@ Professor Cirius Thinker\\
 %  A brief vita is required in a doctoral thesis. See the OGS
 %  Formatting Manual for more information.
 %
-\begin{vitapage}
-\begin{vita}
-  \item[2002] B.~S. in Mathematics \emph{cum laude}, University of Southern North Dakota, Hoople
-  \item[2002-2007] Graduate Teaching Assistant, University of California, San Diego
-  \item[2007] Ph.~D. in Mathematics, University of California, San Diego
-\end{vita}
-\begin{publications}
-  \item Your Name, ``A Simple Proof Of The Riemann Hypothesis'', \emph{Annals of Math}, 314, 2007.
-  \item Your Name, Euclid, ``There Are Lots Of Prime Numbers'', \emph{Journal of Primes}, 1, 300 B.C.
-\end{publications}
-\end{vitapage}
-
+% Vita is optional for masters thesis; we exclude it here.
+%
+ \ifnum\pdfstrcmp{\@degree}{phd}=0 %
+    \begin{vitapage}
+    \begin{vita}
+      \item[2002] B.~S. in Mathematics \emph{cum laude}, University of Southern North Dakota, Hoople
+      \item[2002-2007] Graduate Teaching Assistant, University of California, San Diego
+      \item[2007] Ph.~D. in Mathematics, University of California, San Diego
+    \end{vita}
+    \begin{publications}
+      \item Your Name, ``A Simple Proof Of The Riemann Hypothesis'', \emph{Annals of Math}, 314, 2007.
+      \item Your Name, Euclid, ``There Are Lots Of Prime Numbers'', \emph{Journal of Primes}, 1, 300 B.C.
+    \end{publications}
+    \end{vitapage}
+\fi
 
 %% ABSTRACT
 %
-%  Doctoral dissertation abstracts should not exceed 350 words.
+%  Doctoral dissertation / thesis abstracts should not exceed 350 words.
 %   The abstract may continue to a second page if necessary.
 %
 \begin{abstract}
-  This dissertation will be abstract.
+  This \MakeLowercase{\doctype} will be abstract.
 \end{abstract}
 
 

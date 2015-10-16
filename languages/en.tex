@@ -12,6 +12,15 @@
 % supporting the title and approval pages.
 %
 % \tableofcontents:
+
+ \ifnum\pdfstrcmp{\@degree}{masters}=0 %
+     \def\doctype{Thesis}
+     \def\thedegree{Master of Science}
+\else
+     \def\doctype{Dissertation}
+     \def\thedegree{Doctor of Philosophy}
+\fi
+
 \def\contentsshortname{Contents}
 \def\contentslongname{Table of Contents}
 %                 ~~~~~~~~~~~~~~~~~
@@ -51,8 +60,8 @@
 \def\partname{Part}
 %             ~~~~
 % abstract environment:
-\def\abstractshortname{Abstract of the Dissertation} % Used for TOC
-\def\abstractlongname{Abstract of the Dissertation} % Used for Header
+\def\abstractshortname{Abstract of the {\doctype}} % Used for TOC
+\def\abstractlongname{Abstract of the {\doctype}} % Used for Header
 %                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % dedication:
 \def\dedicationname{Dedication}
@@ -94,7 +103,7 @@
 % Since OGS has very specific requirements for line breaks, they've
 % been broken into different variables for translation.
 % Non-english languages will have to compensate as-is....
-\def\Dissertationpreambename{A dissertation submitted in partial satisfaction of the}
+\def\Dissertationpreambename{A {\doctype} submitted in partial satisfaction of the}
 \def\Requirementspreamblename{requirements for the degree}
 \def\Degreeinpreamblename{in}  % used as "[degree title] in [degree field]"
 
