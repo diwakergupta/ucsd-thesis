@@ -37,8 +37,11 @@ Professor Humor Less\\
 Professor Ironic Name\\
 Professor Cirius Thinker\\
 }
-\numberofmembers{4} % |chair| + |cochair| + |othermembers|
-
+ \ifnum\pdfstrcmp{\@degree}{masters}=0 %
+    \numberofmembers{3} % |chair| + |cochair| + |othermembers|
+\else
+    \numberofmembers{4} % |chair| + |cochair| + |othermembers|
+\fi
 
 %% START THE FRONTMATTER
 %
