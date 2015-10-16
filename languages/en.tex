@@ -15,7 +15,7 @@
 
  \ifnum\pdfstrcmp{\@degree}{masters}=0 %
      \def\titleddoctype{Thesis}
-     \def\thedegree{Masters of Science}
+     \def\thedegree{Master of Science}
 \else
      \def\titleddoctype{Dissertation}
      \def\thedegree{Doctor of Philosophy}
@@ -61,8 +61,8 @@
 \def\partname{Part}
 %             ~~~~
 % abstract environment:
-\def\abstractshortname{Abstract of the {\doctype}} % Used for TOC
-\def\abstractlongname{Abstract of the {\doctype}} % Used for Header
+\def\abstractshortname{Abstract of the {\titleddoctype}} % Used for TOC
+\def\abstractlongname{Abstract of the {\titleddoctype}} % Used for Header
 %                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % dedication:
 \def\dedicationname{Dedication}
