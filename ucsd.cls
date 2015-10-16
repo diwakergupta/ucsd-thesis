@@ -519,7 +519,7 @@ All rights reserved.}
 \begin{center}
 \vspace{.25in}
 \vspace{\@approvalspace}
-\makebox[4in][l]{\parbox{4in}{\fmfont The \MakeLowercase{\doctype} of {\@author}
+\makebox[4in][l]{\parbox{4in}{\fmfont The {\doctype} of {\@author}
 is approved, and it is acceptable in quality and form for publication
 on microfilm and electronically: }}\\
 \begin{tabular*}{4in}[t]{r@{\extracolsep{\fill}}r}

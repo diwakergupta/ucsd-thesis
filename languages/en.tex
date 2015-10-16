@@ -14,13 +14,12 @@
 % \tableofcontents:
 
  \ifnum\pdfstrcmp{\@degree}{masters}=0 %
-     \def\titleddoctype{Thesis}
+     \def\doctype{Thesis}
      \def\thedegree{Master of Science}
 \else
-     \def\titleddoctype{Dissertation}
+     \def\doctype{Dissertation}
      \def\thedegree{Doctor of Philosophy}
 \fi
-\def\doctype{\MakeLowercase{\titleddoctype}}
 
 \def\contentsshortname{Contents}
 \def\contentslongname{Table of Contents}
@@ -61,8 +60,8 @@
 \def\partname{Part}
 %             ~~~~
 % abstract environment:
-\def\abstractshortname{Abstract of the {\titleddoctype}} % Used for TOC
-\def\abstractlongname{Abstract of the {\titleddoctype}} % Used for Header
+\def\abstractshortname{Abstract of the {\doctype}} % Used for TOC
+\def\abstractlongname{Abstract of the {\doctype}} % Used for Header
 %                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % dedication:
 \def\dedicationname{Dedication}
