@@ -148,26 +148,6 @@
 %   To compile a LaTeX document with an index the 'makeindex'
 %   command will need to be run.  See the wiki for more details.
 
-%% HYPERLINKS
-%   To create a PDF with hyperlinks, you need to include the hyperref package.
-%   THIS HAS TO BE THE LAST PACKAGE INCLUDED!
-%   Note that the options plainpages=false and pdfpagelabels exist
-%   to fix indexing associated with having both (ii) and (2) as pages.
-%   Also, all links must be black according to OGS.
-%   See: http://www.tex.ac.uk/cgi-bin/texfaq2html?label=hyperdupdest
-%   Note: This may not work correctly with all DVI viewers (i.e. Yap breaks).
-%   NOTE: hyperref will NOT work in draft mode, as noted above.
-% \usepackage[colorlinks=true, pdfstartview=FitV, 
-%             linkcolor=black, citecolor=black, 
-%             urlcolor=black, plainpages=false,
-%             pdfpagelabels]{hyperref}
-% \hypersetup{ pdfauthor = {Your Name Here}, 
-%              pdftitle = {The Title of The \doctype}, 
-%              pdfkeywords = {Keywords for Searching}, 
-%              pdfcreator = {pdfLaTeX with hyperref package}, 
-%              pdfproducer = {pdfLaTeX} }
-% \urlstyle{same}
-% \usepackage{bookmark}
 
 
 %% CITATIONS
@@ -192,6 +172,21 @@
 \usepackage{booktabs}  % Enables \toprule  http://ctan.org/pkg/array
 
 
+%% HYPERLINKS
+%   To create a PDF with hyperlinks, you need to include the hyperref package.
+%   THIS HAS TO BE THE LAST PACKAGE INCLUDED!
+%   Note that the options plainpages=false and pdfpagelabels exist
+%   to fix indexing associated with having both (ii) and (2) as pages.
+%   Also, all links must be black according to OGS.
+%   See: http://www.tex.ac.uk/cgi-bin/texfaq2html?label=hyperdupdest
+%   Note: This may not work correctly with all DVI viewers (i.e. Yap breaks).
+%   NOTE: hyperref will NOT work in draft mode, as noted above.
+\usepackage[colorlinks=true, pdfstartview=FitV, 
+            linkcolor=black, citecolor=black, 
+            urlcolor=black, plainpages=false,
+            pdfusetitle, pdfpagelabels]{hyperref}
+\urlstyle{same}
+\usepackage{bookmark}
 
 \begin{document}
 
